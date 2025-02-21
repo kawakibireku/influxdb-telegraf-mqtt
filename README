@@ -1,0 +1,22 @@
+To get the INFLUX_TOKEN after running the InfluxDB Docker container, you can follow these steps:
+
+Start the InfluxDB container: Ensure your docker-compose.yml file is set up correctly and start the InfluxDB container: docker-compose up -d influxdb
+
+Create a token: Access the InfluxDB container and create an authentication token. You can do this by running the following command: docker exec -it influxdb influx auth create --org myorg --all-access --description "my-token"
+
+Replace myorg with your organization name. This command will output a token.
+
+Update the telegraf.env file: Copy the generated token and update the INFLUX_TOKEN variable in your telegraf.env file:
+
+MQTT_SERVERS=tcp://mqtt-broker:1883
+MQTT_USERNAME=mqttuser
+MQTT_PASSWORD=mqttpassword
+INFLUX_BUCKET=mybucket
+INFLUX_ORG=myorg
+INFLUX_TOKEN=your_generated_token
+
+Start the Telegraf container: After updating the telegraf.env file, start the Telegraf container:
+
+docker-compose up -d telegraf
+
+This will ensure that Telegraf can connect to InfluxDB using the generated token.
